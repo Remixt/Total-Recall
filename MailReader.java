@@ -18,11 +18,7 @@ public class MailReader {
 	public static boolean searchForPhone(String phone){
 	CharSequence phoneN = phone;
 	for(int i=0;i<myMessages.size();i++){
-        if(myMessages.get(i).contains(phone)){
-            return true;
-        }
-        else{ return false;
-        }
+        return myMessages.get(i).contains(phone);
         }
 	return false;
 }

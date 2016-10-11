@@ -22,8 +22,8 @@ public class AddressBook implements ActionListener, Runnable {
 	JScrollPane scrollPane;
 	JFrame frame;
 
-	JMenuBar menubar = new JMenuBar();;
-	JMenu menu = new JMenu();
+	JMenuBar menubar = new JMenuBar();
+    JMenu menu = new JMenu();
 	JMenuItem menuItem;
 
 	Toolkit kit = Toolkit.getDefaultToolkit();
@@ -156,6 +156,7 @@ public class AddressBook implements ActionListener, Runnable {
 	static OperationHandler oh = new OperationHandler();
 
 	public void actionPerformed(ActionEvent ae) {
+		String path = System.getProperty("user.dir");
 		if (ae.getActionCommand() == "Add New Member") {
 			oh.AddNew();
 
@@ -230,13 +231,13 @@ public class AddressBook implements ActionListener, Runnable {
 
 			try {
 				bfout = new FileOutputStream(
-						"C:\\Users\\Remixt\\Desktop\\Recall\\data.dat");
+						path + "\\data.dat");
 			} catch (Exception e) {
 
 			}
 			try {
 				bfin = new FileInputStream(
-						"C:\\Users\\Remixt\\Desktop\\Recall\\data.dat");
+						path + "\\data.dat");
 			} catch (Exception e) {
 
 			}
@@ -384,10 +385,10 @@ class OperationHandler implements ListSelectionListener, ActionListener,
 	private MailReader mR2;
 
 	OperationHandler() {
-
+        String path = System.getProperty("user.dir");
 		try {
 			fis = new FileInputStream(
-					"C:\\Users\\Remixt\\Desktop\\Recall\\data.dat");
+					path + "\\data.dat");
 			ois = new ObjectInputStream(fis);
 			v = (Vector) ois.readObject();
 			ois.close();
@@ -400,10 +401,10 @@ class OperationHandler implements ListSelectionListener, ActionListener,
 	}
 
 	public void run() {
-
+        String path = System.getProperty("user.dir");
 		try {
 			FileOutputStream fos = new FileOutputStream(
-					"C:\\Users\\Remixt\\Desktop\\Recall\\data.dat");
+					path + "\\data.dat");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(v);
 			oos.flush();
@@ -780,8 +781,9 @@ class OperationHandler implements ListSelectionListener, ActionListener,
 		textArea.setEditable(false);
 
 		try {
+            String path = System.getProperty("user.dir");
 			fishelp = new FileInputStream(
-					"C:\\Users\\Remixt\\Desktop\\Recall\\data.dat\\help.txt");
+					path + "\\data.dat\\help.txt");
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(newFrame, "Help File Not Found.",
 					"Help File Not Found", JOptionPane.INFORMATION_MESSAGE);
