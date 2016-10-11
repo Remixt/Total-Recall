@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 import java.util.Properties;
-
-import javax.mail.Authenticator;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -10,6 +8,10 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Store;
 
+
+/*
+ Class that will check a specified email box for replies to the total recall system.
+ */
 public class MailReader {
 	static int howManyMessages = 0;
 	static ArrayList<String> myMessages = new ArrayList<String>();

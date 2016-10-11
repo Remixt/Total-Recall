@@ -1,25 +1,21 @@
-import java.io.*;
-import java.awt.*;
-import java.awt.event.*;
-
-import javax.mail.Flags.Flag;
-import javax.mail.search.FlagTerm;
-import javax.mail.*;
 import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.AbstractTableModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-
-import java.util.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
 import java.util.concurrent.ExecutionException;
-import java.net.*;
-
 public class AddressBook implements ActionListener, Runnable {
 
 	static boolean programOpen = true;
 
-	JPanel topPanel, bottomPanel;
-	JScrollPane scrollPane;
 	JFrame frame;
 
 	JMenuBar menubar = new JMenuBar();
@@ -34,15 +30,13 @@ public class AddressBook implements ActionListener, Runnable {
 	Image img = kit.getImage("images/icon.JPG");
 	public static JTextField customMessage = new JTextField(40);
 
-	public static final String getMessageText() {
+	public static String getMessageText() {
 		return customMessage.getText();
 
 	}
 
 	String recallText = "Enter your message here";
-	String[] returnNumbers = null;
 
-	@SuppressWarnings("deprecation")
 	AddressBook() {
 
 		frame = new JFrame("Recall Roster");
@@ -52,7 +46,7 @@ public class AddressBook implements ActionListener, Runnable {
 		frame.setLocation(screenWidth / 4, screenHeight / 4);
 		frame.setIconImage(img);
 		addWidgets();
-		frame.show();
+		frame.setVisible(true);
 
 	}
 
@@ -157,6 +151,7 @@ public class AddressBook implements ActionListener, Runnable {
 
 	public void actionPerformed(ActionEvent ae) {
 		String path = System.getProperty("user.dir");
+
 		if (ae.getActionCommand() == "Add New Member") {
 			oh.AddNew();
 
@@ -179,13 +174,11 @@ public class AddressBook implements ActionListener, Runnable {
 
 		else if (ae.getActionCommand() == "View All Members") {
 
-			oh.ViewAllMembers();
+			oh.viewAllMembers();
 
 		}
 
 		else if (ae.getActionCommand() == "Initiate Recall") {
-
-			// viewAllMembers method name should begin with a lower-case letter
 
 			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 				@Override
@@ -199,7 +192,7 @@ public class AddressBook implements ActionListener, Runnable {
 					try {
 						get();
 					} catch (InterruptedException | ExecutionException e) {
-						// do something with any exceptions here
+
 						e.printStackTrace();
 					}
 				}
@@ -264,8 +257,10 @@ public class AddressBook implements ActionListener, Runnable {
 
 }
 
+//Member Class
 class Member implements Serializable {
 	/**
+     * Class for storing contact information of each member in the data.dat file.
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
@@ -329,9 +324,15 @@ class Member implements Serializable {
 
 }
 
+//Member Class
+
+//Operation Handler
 class OperationHandler implements ListSelectionListener, ActionListener,
 		Runnable {
-
+/*
+* This is the meat behind the Recall operation for Total Recall. It uses fowiz calls to send mass texts from the desktop application to an "unlimited" amount of users at one time, and handle their replies by using an email forwarding protocol.
+* see www.fowiz.com for more details.
+* */
 	public String getMessage() {
 		return AddressBook.getMessageText();
 
@@ -466,7 +467,7 @@ class OperationHandler implements ListSelectionListener, ActionListener,
 
 		newFrame.getContentPane().add(bottomPane, BorderLayout.SOUTH);
 		newFrame.setLocation(screenWidth / 4, screenHeight / 4);
-		newFrame.show();
+		newFrame.setVisible(true);
 
 	}
 
@@ -502,7 +503,7 @@ class OperationHandler implements ListSelectionListener, ActionListener,
 
 		newFrame.getContentPane().add(topPane, BorderLayout.NORTH);
 		newFrame.getContentPane().add(centerPane, BorderLayout.CENTER);
-		newFrame.show();
+		newFrame.setVisible(true);
 	}
 
 	public void SortMembers() {
@@ -543,7 +544,7 @@ class OperationHandler implements ListSelectionListener, ActionListener,
 		newFrame.getContentPane().add(pane, BorderLayout.CENTER);
 		newFrame.getContentPane().add(bottomPane, BorderLayout.SOUTH);
 
-		newFrame.show();
+		newFrame.setVisible(true);
 
 	}
 
@@ -598,7 +599,7 @@ class OperationHandler implements ListSelectionListener, ActionListener,
 
 	}
 
-	public void ViewAllMembers() {
+	public void viewAllMembers() {
 
 		newFrame = new JFrame("All Members In The Roster");
 		newFrame.setSize(600, 300);
@@ -697,9 +698,9 @@ class OperationHandler implements ListSelectionListener, ActionListener,
 
 				customMessage = customMessage.replaceAll("\\s+", "+");
 				System.out.println(customMessage);
-
-				String requestUrl = ("http://cloud.fowiz.com/api/message_http_api.php?username=Remixt&phonenumber=+"
-						+ toPhoneNumber + "&message=" + customMessage + "&passcode=equine2449");
+                // need to change this information in order for the application to function properly.
+				String requestUrl = ("Replace this with your fowiz URL"
+						+ toPhoneNumber + "&message=" + customMessage + "&passcode=yourpassword");
 
 				URL url = new URL(requestUrl);
 
@@ -725,7 +726,7 @@ class OperationHandler implements ListSelectionListener, ActionListener,
 		    replies.put((String)model.getValueAt(i,3), i); //Assuming 3 is phone number column
 		}
 
-		
+		// need to change this information for the app to work correctly.
 		String host = "pop.gmail.com";
 		String mailStoreType = "pop3";
 		String username = "********@gmail.com";
@@ -760,9 +761,7 @@ class OperationHandler implements ListSelectionListener, ActionListener,
 	}
 	}
 	public void checkMail() throws Exception {
-
 	}
-
 	public void showHelp() throws IOException {
 
 		String title = "Help Contents";
@@ -1035,3 +1034,4 @@ class OperationHandler implements ListSelectionListener, ActionListener,
 	}
 
 }
+//Operation Handler
