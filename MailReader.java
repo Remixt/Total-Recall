@@ -13,42 +13,42 @@ import javax.mail.Store;
  Class that will check a specified email box for replies to the total recall system.
  */
 public class MailReader {
-	static int howManyMessages = 0;
-	static ArrayList<String> myMessages = new ArrayList<String>();
-	static String reply = null;
-	
-	public static boolean searchForPhone(String phone){
-	CharSequence phoneN = phone;
-	for(int i=0;i<myMessages.size();i++){
+ static int howManyMessages = 0;
+ static ArrayList<String> myMessages = new ArrayList<String>();
+ static String reply = null;
+ 
+ public static boolean searchForPhone(String phone){
+ CharSequence phoneN = phone;
+ for(int i=0;i<myMessages.size();i++){
         return myMessages.get(i).contains(phone);
         }
-	return false;
+ return false;
 }
-	
-	public static String getReply(String phone){
-		
-		for(int i=0;i<myMessages.size();i++){
-	        if(myMessages.get(i).contains(phone)){
-	        	reply = myMessages.get(i).toString();
-	        	reply = reply.substring(26);
-	        	System.out.println(reply);
-	        	return reply;
-	        }
-	        else{ 
-	        	return "no reply yet!";
-	        }
-	        }
-		return "no reply yet!";
-		
-		
-	}
-	
-	public static int checkHowMany() {
-		return howManyMessages;
-	}
+ 
+ public static String getReply(String phone){
+  
+  for(int i=0;i<myMessages.size();i++){
+         if(myMessages.get(i).contains(phone)){
+          reply = myMessages.get(i).toString();
+          reply = reply.substring(26);
+          System.out.println(reply);
+          return reply;
+         }
+         else{ 
+          return "no reply yet!";
+         }
+         }
+  return "no reply yet!";
+  
+  
+ }
+ 
+ public static int checkHowMany() {
+  return howManyMessages;
+ }
 
 
-	
+ 
 
    public static void check(String host, String storeType, String user,
       String password) 
@@ -112,8 +112,8 @@ public class MailReader {
 
       String host = "pop.gmail.com";// change accordingly
       String mailStoreType = "pop3";
-      String username = "***************@gmail.com";// change accordingly
-      String password = "**************";// change accordingly
+      String username = "totalrecallaf@gmail.com";// change accordingly
+      String password = "equine2449";// change accordingly
 
       check(host, mailStoreType, username, password);
 
